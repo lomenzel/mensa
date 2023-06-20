@@ -1,0 +1,26 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "leonard.menzel@tutanota.com",
+                "Name": "Leonard Menzel"
+            }
+        ],
+        "Category": "Information",
+        "Description": "Mensa Speiseplan anzeigen",
+        "EnabledByDefault": true,
+        "Icon": "",
+        "Id": "mensa",
+        "License": "GPL V3",
+        "Name": "Essen",
+        "ServiceTypes": [
+            "Plasma/Applet"
+        ],
+        "Version": "3.0.0",
+        "Website": "https://github.com/leonderdunna/mensa.git"
+    },
+    "X-Plasma-API": "declarativeappletscript",
+    "X-Plasma-MainScript": "ui/main.qml",
+    "X-Plasma-NotificationArea": "true",
+    "X-Plasma-NotificationAreaCategory": "Hardware"
+}
