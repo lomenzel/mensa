@@ -6,11 +6,11 @@
                 "Name": "Leonard Menzel"
             }
         ],
-        "Category": "Food Information",
+        "Category": "Utilities",
         "Description": "Zeigt den aktuellen Speiseplan der Mensa an.",
         "EnabledByDefault": true,
         "Icon": "utilities-food",
-        "Id": "mensa",
+        "Id": "com.github.leonderdunna.mensa",
         "License": "GPL V3",
         "Name": "Mensa",
         "ServiceTypes": [
