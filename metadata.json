@@ -6,17 +6,17 @@
                 "Name": "Leonard Menzel"
             }
         ],
-        "Category": "Information",
-        "Description": "Mensa Speiseplan anzeigen",
+        "Category": "Food Information",
+        "Description": "Zeigt den aktuellen Speiseplan der Mensa an.",
         "EnabledByDefault": true,
-        "Icon": "",
+        "Icon": "utilities-food",
         "Id": "mensa",
         "License": "GPL V3",
-        "Name": "Essen",
+        "Name": "Mensa",
         "ServiceTypes": [
             "Plasma/Applet"
         ],
-        "Version": "3.0.0",
+        "Version": "0.0.1",
         "Website": "https://github.com/leonderdunna/mensa.git"
     },
     "X-Plasma-API": "declarativeappletscript",
