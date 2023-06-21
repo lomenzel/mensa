@@ -3,18 +3,19 @@
  * @param {Function} setSpeiseplan Die Funktion, an die der Speiseplan übergeben wird
  */
 function fetchSpeiseplan(setSpeiseplan) {
-    const xhr = new XMLHttpRequest();
-    xhr.addEventListener("readystatechange", function () {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status === 200) {
                 const responseText = xhr.responseText;
                 const result = JSON.parse(responseText);
+                //print(responseText)
                 setSpeiseplan(result);
             } else {
                 console.error("Fehler beim Abrufen des Speiseplans. Statuscode: " + xhr.status);
             }
         }
-    });
+    };
 
     xhr.open("GET", "https://speiseplan.mcloud.digital/meals");
     xhr.send();
