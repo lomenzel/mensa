@@ -9,10 +9,13 @@
         "Category": "Utilities",
         "Description": "Zeigt den aktuellen Speiseplan der Mensa an.",
         "EnabledByDefault": true,
-        "Icon": "utilities-food",
+        "Icon": "food-cake",
         "Id": "com.github.leonderdunna.mensa",
         "License": "GPL V3",
         "Name": "Mensa",
+        "FormFactors": [
+            "desktop"
+        ],
         "ServiceTypes": [
             "Plasma/Applet"
         ],
@@ -22,5 +25,5 @@
     "X-Plasma-API": "declarativeappletscript",
     "X-Plasma-MainScript": "ui/main.qml",
     "X-Plasma-NotificationArea": "true",
-    "X-Plasma-NotificationAreaCategory": "Hardware"
+    "X-Plasma-NotificationAreaCategory": ""
 }
