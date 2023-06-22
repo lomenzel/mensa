@@ -9,7 +9,7 @@
         "Category": "Utilities",
         "Description": "Zeigt den aktuellen Speiseplan der Mensa an.",
         "EnabledByDefault": true,
-        "Icon": "food-cake",
+        "Icon": "emoji-food-symbolic",
         "Id": "com.github.leonderdunna.mensa",
         "License": "GPL V3",
         "Name": "Mensa",
