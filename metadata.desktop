@@ -13,7 +13,7 @@ X-Plasma-MainScript=ui/main.qml
 
 X-Plasma-NotificationArea=true
 
-X-KDE-PluginInfo-Name=Mensa
+X-KDE-PluginInfo-Name=com.github.leonderdunna.mensa
 X-KDE-PluginInfo-Category=Food Information
 X-KDE-PluginInfo-Author=Leonard Menzel
 X-KDE-PluginInfo-Email=leonard.menzel@tutanota.com
