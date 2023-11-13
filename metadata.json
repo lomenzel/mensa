@@ -10,7 +10,7 @@
         "Description": "Zeigt den aktuellen Speiseplan der Mensa an.",
         "EnabledByDefault": true,
         "Icon": "emoji-food-symbolic",
-        "Id": "com.github.leonderdunna.mensa",
+        "Id": "com.github.lomenzel.mensa",
         "License": "GPL V3",
         "Name": "Mensa",
         "FormFactors": [
@@ -20,7 +20,7 @@
             "Plasma/Applet"
         ],
         "Version": "1.0.0",
-        "Website": "https://github.com/leonderdunna/mensa.git"
+        "Website": "https://github.com/lomenzel/mensa.git"
     },
     "X-Plasma-API": "declarativeappletscript",
     "X-Plasma-MainScript": "ui/main.qml",

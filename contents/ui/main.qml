@@ -15,11 +15,18 @@ Item {
     ColumnLayout {
         anchors.fill: parent
 
+        Controls.Button {
+            text: "Aktuallisieren"
+            onClicked: {
+                SpeiseplanFetcher.fetchSpeiseplan(reload)
+            }
+        }
 
         Item {
             id: header
             width: parent.width
             height: units.gridUnit * 2
+            Layout.fillWidth: true
 
             RowLayout {
                 anchors.fill: parent
@@ -35,11 +42,13 @@ Item {
                         }
                     }
                     enabled: currentTabIndex > 0
+                    Layout.alignment: Qt.AlignLeft
                 }
 
                 Controls.Label {
                     text: new Date(speiseplan[currentTabIndex].date).toLocaleDateString()
                     horizontalAlignment: Text.AlignHCenter
+                    Layout.alignment: Qt.AlignHCenter
                 }
 
 
@@ -52,6 +61,7 @@ Item {
                         }
                     }
                     enabled: currentTabIndex < speiseplan.length - 1
+                    Layout.alignment: Qt.AlignRight
                 }
             }
         }
@@ -105,9 +115,10 @@ Item {
                                         Layout.fillWidth: false
                                         closable:false
                                         checkable:false
-                                        text: "Vegetarisch"
+                                        text: modelData.vegan? "Vegan": "Vegetarisch"
                                         visible:modelData.vegetarian
                                     }
+
                                 }
                             }
 
@@ -124,8 +135,11 @@ Item {
         Plasmoid.toolTipMainText: "Speiseplan"
         Plasmoid.toolTipSubText: "Speiseplan"
 
+
+
         function setSpeiseplan(result)
         {
+
             speiseplan = result
             // Set the currentTabIndex based on the current date
             var currentDate = new Date()
@@ -138,9 +152,15 @@ Item {
                 }
             }
         }
+        function reload(result){
+            speiseplan = result
+        }
 
         // Initial load from SpeiseplanFetcher
         Component.onCompleted: {
+            plasmoid.configuration.vegetarisch = true;
+            plasmoid.configuration.mensa = true;
+            plasmoid.configuration.vegan = false;
             SpeiseplanFetcher.fetchSpeiseplan(setSpeiseplan)
         }
     }

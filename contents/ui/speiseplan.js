@@ -10,7 +10,7 @@ function fetchSpeiseplan(setSpeiseplan) {
                 const responseText = xhr.responseText;
                 const result = JSON.parse(responseText);
                 //print(responseText)
-                setSpeiseplan(result);
+                setSpeiseplan(applyFilters(result));
             } else {
                 console.error("Fehler beim Abrufen des Speiseplans. Statuscode: " + xhr.status);
             }
@@ -20,3 +20,28 @@ function fetchSpeiseplan(setSpeiseplan) {
     xhr.open("GET", "https://speiseplan.mcloud.digital/meals");
     xhr.send();
 }  
+
+function applyFilters(raw){
+    print(JSON.stringify(plasmoid.configuration))
+
+
+    let filtered =  raw.map(day => {
+        day.meals = day.meals.filter(meal=>{
+            if(plasmoid.configuration.vegetarisch){
+                if(!meal.vegetarian) {
+                    return false
+                }
+            }
+            if(plasmoid.configuration.vegan && !meal.vegan)
+                return false
+            if(!plasmoid.configuration.mensa && meal.location == "Mensa")
+                return false
+            if(!plasmoid.configuration.cafeteria && meal.location == "Cafeteria")
+                return false
+            return true;
+        })
+        return day
+    })
+
+    return filtered
+}
