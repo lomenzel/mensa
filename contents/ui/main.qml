@@ -9,62 +9,26 @@ import "speiseplan.js" as SpeiseplanFetcher
 
 Item {
     id: root
-    width: units.gridUnit * 20
-    height: units.gridUnit * 10
+
 
     ColumnLayout {
         anchors.fill: parent
 
+
         Controls.Button {
-            text: "Aktuallisieren"
+            text: "test"
             onClicked: {
-                SpeiseplanFetcher.fetchSpeiseplan(reload)
+                plasmoid.configuration.debug = false;
             }
+            visible: plasmoid.configuration.debug === true
         }
 
-        Item {
-            id: header
-            width: parent.width
-            height: units.gridUnit * 2
-            Layout.fillWidth: true
-
-            RowLayout {
-                anchors.fill: parent
-                spacing: units.gridUnit
-                anchors.horizontalCenter: parent.horizontalCenter
-
-                Controls.Button {
-                    text: "<"
-                    onClicked: {
-                        if (currentTabIndex > 0)
-                        {
-                            currentTabIndex--
-                        }
-                    }
-                    enabled: currentTabIndex > 0
-                    Layout.alignment: Qt.AlignLeft
-                }
-
-                Controls.Label {
-                    text: new Date(speiseplan[currentTabIndex].date).toLocaleDateString()
-                    horizontalAlignment: Text.AlignHCenter
-                    Layout.alignment: Qt.AlignHCenter
-                }
-
-
-                Controls.Button {
-                    text: ">"
-                    onClicked: {
-                        if (currentTabIndex < speiseplan.length - 1)
-                        {
-                            currentTabIndex++
-                        }
-                    }
-                    enabled: currentTabIndex < speiseplan.length - 1
-                    Layout.alignment: Qt.AlignRight
-                }
-            }
+        Controls.Label {
+            text: new Date(speiseplan[currentTabIndex].date).toLocaleDateString()
+            horizontalAlignment: Text.AlignHCenter
+            Layout.alignment: Qt.AlignHCenter
         }
+
 
         Controls.ScrollView {
             id: scrollArea
@@ -73,11 +37,12 @@ Item {
 
 
             Kirigami.CardsListView {
-                id:meals
-                model:speiseplan[currentTabIndex].meals
+                id: meals
+                model: speiseplan[currentTabIndex].meals
 
-                delegate: Kirigami.AbstractCard {
-                    contentItem:Item {
+                delegate: Kirigami.AbstractCard
+                {
+                    contentItem: Item {
                         implicitWidth: delegateLayout.implicitWidth
                         implicitHeight: delegateLayout.implicitHeight
                         GridLayout {
@@ -103,20 +68,20 @@ Item {
                                     Layout.fillWidth: true
                                 }
                                 RowLayout {
-                                    spacing:10
+                                    spacing: 10
                                     Kirigami.Chip {
                                         Layout.fillWidth: false
-                                        closable:false
-                                        checkable:false
-                                        text: modelData.price.split(" /")[0]
+                                        closable: false
+                                        checkable: false
+                                        text: modelData.price.split(" /")[plasmoid.configuration.preis]
                                     }
 
                                     Kirigami.Chip {
                                         Layout.fillWidth: false
-                                        closable:false
-                                        checkable:false
-                                        text: modelData.vegan? "Vegan": "Vegetarisch"
-                                        visible:modelData.vegetarian
+                                        closable: false
+                                        checkable: false
+                                        text: modelData.vegan ? "Vegan" : "Vegetarisch"
+                                        visible: modelData.vegetarian
                                     }
 
                                 }
@@ -128,39 +93,105 @@ Item {
                 }
             }
         }
+
+        Item {
+            id: header
+            width: parent.width
+            height: units.gridUnit * 2
+            Layout.fillWidth: true
+
+            RowLayout {
+                anchors.fill: parent
+                spacing: units.gridUnit
+                anchors.horizontalCenter: parent.horizontalCenter
+
+                Controls.Button {
+                    text: "<"
+                    onClicked: {
+                        if (currentTabIndex > 0) {
+                            currentTabIndex--
+                        }
+                    }
+                    enabled: currentTabIndex > 0
+                    Layout.alignment: Qt.AlignLeft
+                }
+
+
+                Controls.Button {
+                    text: "↻"
+                    onClicked: {
+                        SpeiseplanFetcher.fetchSpeiseplan(reload)
+                    }
+                    Layout.alignment: Qt.AlignCenter
+
+                }
+
+                Controls.Button {
+                    text: ">"
+                    onClicked: {
+                        if (currentTabIndex < speiseplan.length - 1) {
+                            currentTabIndex++
+                        }
+                    }
+                    enabled: currentTabIndex < speiseplan.length - 1
+                    Layout.alignment: Qt.AlignRight
+                }
+            }
+        }
+
+
     }
     property var speiseplan: []
     property int currentTabIndex: 0
 
-        Plasmoid.toolTipMainText: "Speiseplan"
-        Plasmoid.toolTipSubText: "Speiseplan"
+    Plasmoid.toolTipMainText: "Speiseplan"
+    Plasmoid.toolTipSubText: "Speiseplan"
 
 
+    function setSpeiseplan(result) {
 
-        function setSpeiseplan(result)
-        {
-
-            speiseplan = result
-            // Set the currentTabIndex based on the current date
-            var currentDate = new Date()
-            var currentDateString = currentDate.toISOString().split('T')[0]
-            for (var i = 0; i < speiseplan.length; i++) {
-                if (speiseplan[i].date.startsWith(currentDateString))
-                {
-                    currentTabIndex = i
-                    break
-                }
+        speiseplan = result
+        // Set the currentTabIndex based on the current date
+        var currentDate = new Date()
+        var currentDateString = currentDate.toISOString().split('T')[0]
+        for (var i = 0; i < speiseplan.length; i++) {
+            if (speiseplan[i].date.startsWith(currentDateString)) {
+                currentTabIndex = i
+                break
             }
         }
-        function reload(result){
-            speiseplan = result
-        }
-
-        // Initial load from SpeiseplanFetcher
-        Component.onCompleted: {
-            plasmoid.configuration.vegetarisch = true;
-            plasmoid.configuration.mensa = true;
-            plasmoid.configuration.vegan = false;
-            SpeiseplanFetcher.fetchSpeiseplan(setSpeiseplan)
-        }
     }
+
+    function reload(result) {
+        speiseplan = result
+    }
+
+    readonly property bool mensa: plasmoid.configuration.mensa
+
+    onMensaChanged: {
+        SpeiseplanFetcher.fetchSpeiseplan(reload)
+    }
+    readonly property bool cafeteria: plasmoid.configuration.cafeteria
+
+    onCafeteriaChanged: {
+        SpeiseplanFetcher.fetchSpeiseplan(reload)
+    }
+
+    readonly property bool vegan: plasmoid.configuration.vegan
+
+    onVeganChanged: {
+        SpeiseplanFetcher.fetchSpeiseplan(reload)
+    }
+    readonly property bool vegetarisch: plasmoid.configuration.vegetarisch
+
+    onVegetarischChanged: {
+        SpeiseplanFetcher.fetchSpeiseplan(reload)
+    }
+
+
+    // Initial load from SpeiseplanFetcher
+    Component.onCompleted: {
+        SpeiseplanFetcher.fetchSpeiseplan(setSpeiseplan)
+
+    }
+}
