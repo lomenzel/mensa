@@ -38,10 +38,18 @@ function applyFilters(raw){
                 return false
             if(!plasmoid.configuration.cafeteria && meal.location == "Cafeteria")
                 return false
+            if(!plasmoid.configuration.zeigeAllergene)
+                if(plasmoid.configuration.allergene.filter( e => meal.allergens.map(f => f.code).includes(e) ).length > 0)
+                    return false
             return true;
         })
         return day
     })
 
-    return filtered
+    return filtered.map(day => {
+        day.meals = day.meals.map(meal => {
+            meal.allergens = meal.allergens.filter(e =>
+            plasmoid.configuration.allergene.includes(e.code));
+            return meal});
+        return day})
 }

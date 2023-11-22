@@ -8,7 +8,7 @@
         <entry name="mensa" type="Bool">
             <default>true</default>
         </entry>
-        <entry name="Cafeteria" type="Bool">
+        <entry name="cafeteria" type="Bool">
             <default>false</default>
         </entry>
         <entry name="vegetarisch" type="Bool">
@@ -23,6 +23,10 @@
         <entry name="zeigeAllergene" type="Bool">
             <default>false</default>
         </entry>
+        <entry name="allergene" type="StringList">
+            <default></default>
+        </entry>
+
 
 
     </group>

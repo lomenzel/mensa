@@ -2,6 +2,7 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15 as QQC2
 import org.kde.kirigami 2.20 as Kirigami
 import QtQuick.Layouts 1.15
+ import QtQuick.Controls 2.15
 
 
 Kirigami.FormLayout {
@@ -13,6 +14,9 @@ Kirigami.FormLayout {
     property alias cfg_vegan: vegan.checked
     property alias cfg_preis: page.preis
     property int preis: 0
+    property var allergene: []
+    property alias cfg_allergene: page.allergene
+    property alias cfg_zeigeAllergene: zeigeAllergene.checked
 
 
     QQC2.CheckBox {
@@ -78,7 +82,40 @@ Kirigami.FormLayout {
             }
             checked: page.preis === 2
         }
+
+    }
+    QQC2.CheckBox {
+        id: zeigeAllergene
+        Kirigami.FormData.label: i18n("Wogegen bist du Allergisch?")
+        text: i18n("Allergene nur einblenden")
     }
 
 
+
+
+    Repeater {
+
+
+        model: [{"code":"Ei","name":"Eier"},{"code":"En","name":"Erdnüsse"},{"code":"Fi","name":"Fisch"},{"code":"GlD","name":"Dinkel"},{"code":"GlG","name":"Gerste"},{"code":"GlH","name":"Hafer"},{"code":"GlK","name":"Kamut"},{"code":"GlR","name":"Roggen"},{"code":"GlW","name":"Weizen"},{"code":"Kr","name":"Krebstiere"},{"code":"Lu","name":"Lupine"},{"code":"Mi","name":"Milch und Laktose"},{"code":"NC","name":"Cashewnüsse"},{"code":"NH","name":"Haselnüsse"},{"code":"NMc","name":"Macadamianüsse"},{"code":"NMn","name":"Mandeln"},{"code":"NPa","name":"Paranüsse"},{"code":"NPe","name":"Pekannüsse"},{"code":"NPi","name":"Pistazien"},{"code":"NW","name":"Walnüsse"},{"code":"Se","name":"Sesam"},{"code":"Sf","name":"Senf"},{"code":"Sl","name":"Sellerie"},{"code":"So","name":"Soja"},{"code":"Sw","name":"Schwefeldioxid und Sulfite"},{"code":"Wt","name":"Weichtiere"}]
+
+        QQC2.CheckBox {
+                text: modelData.name
+                checked: page.allergene.indexOf(modelData.code) !== -1
+                onClicked: {
+                    if (checked) {
+                        page.allergene.push(modelData.code);
+                    } else {
+                        var index = page.allergene.indexOf(modelData.code);
+                        if (index !== -1) {
+                            page.allergene.splice(index, 1);
+                        }
+                    }
+
+                    //bad workaround to trigger the changed event in main.qml
+                    page.allergene = page.allergene.map()
+                }
+            }
+
+
+    }
 }

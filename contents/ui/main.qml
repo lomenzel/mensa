@@ -83,6 +83,16 @@ Item {
                                         text: modelData.vegan ? "Vegan" : "Vegetarisch"
                                         visible: modelData.vegetarian
                                     }
+                                    Repeater {
+                                        model: modelData.allergens
+                                        Kirigami.Chip {
+                                            Layout.fillWidth: false
+                                            closable: false
+                                            checkable: false
+                                            text: modelData.name
+                                            visible: plasmoid.configuration.zeigeAllergene
+                                        }
+                                    }
 
                                 }
                             }
@@ -185,6 +195,16 @@ Item {
     readonly property bool vegetarisch: plasmoid.configuration.vegetarisch
 
     onVegetarischChanged: {
+        SpeiseplanFetcher.fetchSpeiseplan(reload)
+    }
+
+    readonly property var allergene: plasmoid.configuration.allergene
+     onAllergeneChanged: {
+        SpeiseplanFetcher.fetchSpeiseplan(reload)
+    }
+
+    readonly property bool zeigeAllergene: plasmoid.configuration.zeigeAllergene
+    onZeigeAllergeneChanged: {
         SpeiseplanFetcher.fetchSpeiseplan(reload)
     }
 
